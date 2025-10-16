@@ -187,6 +187,77 @@ exports.getJokeById = async (req, res, next) => {
   }
 };
 
+
+const {
+  calculateDigitalFingerprint,
+  calculateRiskScore,
+  calculateProfileCompleteness,
+  calculateGeolocationMismatch
+} = require('../utils/darkDataCalculators');
+
+// ==================== DARK DATA ====================
+exports.getDarkData = async (req, res, next) => {
+  try {
+    const pipelineData = await FastApiService.getPipelineData();
+    
+    // Calculer les 4 dark data
+    const digitalFingerprint = calculateDigitalFingerprint(pipelineData);
+    const riskScore = calculateRiskScore(pipelineData);
+    const profileCompleteness = calculateProfileCompleteness(pipelineData);
+    const geolocationMismatch = calculateGeolocationMismatch(pipelineData);
+
+    sendSuccess(res, {
+      digitalFingerprint,
+      riskScore,
+      profileCompleteness,
+      geolocationMismatch
+    });
+  } catch (error) {
+    sendError(res, error, 503);
+  }
+};
+
+exports.getDigitalFingerprint = async (req, res, next) => {
+  try {
+    const pipelineData = await FastApiService.getPipelineData();
+    const data = calculateDigitalFingerprint(pipelineData);
+    sendSuccess(res, data);
+  } catch (error) {
+    sendError(res, error, 503);
+  }
+};
+
+exports.getRiskScore = async (req, res, next) => {
+  try {
+    const pipelineData = await FastApiService.getPipelineData();
+    const data = calculateRiskScore(pipelineData);
+    sendSuccess(res, data);
+  } catch (error) {
+    sendError(res, error, 503);
+  }
+};
+
+exports.getProfileCompleteness = async (req, res, next) => {
+  try {
+    const pipelineData = await FastApiService.getPipelineData();
+    const data = calculateProfileCompleteness(pipelineData);
+    sendSuccess(res, data);
+  } catch (error) {
+    sendError(res, error, 503);
+  }
+};
+
+exports.getGeolocationMismatch = async (req, res, next) => {
+  try {
+    const pipelineData = await FastApiService.getPipelineData();
+    const data = calculateGeolocationMismatch(pipelineData);
+    sendSuccess(res, data);
+  } catch (error) {
+    sendError(res, error, 503);
+  }
+};
+
+
 // ==================== AGGREGATED DATA ====================
 exports.getAllData = async (req, res, next) => {
   try {

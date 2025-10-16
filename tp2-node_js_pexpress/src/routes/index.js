@@ -39,4 +39,10 @@ router.get(`/api/${API_VERSION}/jokes/:id`, controllers.getJokeById);
 // ==================== AGGREGATED DATA ====================
 router.get(`/api/${API_VERSION}/data`, controllers.getAllData);
 
+router.get(`/api/${API_VERSION}/dark-data`, controllers.getDarkData);
+router.get(`/api/${API_VERSION}/dark-data/fingerprint`, controllers.getDigitalFingerprint);
+router.get(`/api/${API_VERSION}/dark-data/risk-score`, controllers.getRiskScore);
+router.get(`/api/${API_VERSION}/dark-data/profile-completeness`, controllers.getProfileCompleteness);
+router.get(`/api/${API_VERSION}/dark-data/geolocation-mismatch`, controllers.getGeolocationMismatch);
+
 module.exports = router;
